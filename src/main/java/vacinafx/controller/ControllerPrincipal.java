@@ -27,11 +27,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import vacinafx.dao.AplicacaoDAO;
 import vacinafx.dao.PessoaDAO;
 import vacinafx.dao.VacinaDAO;
 import vacinafx.dao.core.DAOFactory;
 import vacinafx.dao.core.GenericJDBCDAO;
+import vacinafx.model.Aplicacao;
 import vacinafx.model.Pessoa;
+import vacinafx.model.Situacao;
 import vacinafx.model.Vacina;
 
 public class ControllerPrincipal implements Initializable {
@@ -50,6 +53,9 @@ public class ControllerPrincipal implements Initializable {
 
     @FXML
     private Button botaoRemover;
+
+    @FXML
+    private Button botaoAplicacao;
 
     @FXML
     private TableColumn<Vacina, Long> colunaCodigo;
@@ -265,6 +271,28 @@ public class ControllerPrincipal implements Initializable {
 
     }
 
+    @FXML
+    void botaoAplicacaoClicado(ActionEvent event) {
+        if (table.getSelectionModel().getSelectedItem() != null
+                && tablePessoa.getSelectionModel().getSelectedItem() != null) {
+            Vacina vacina = table.getSelectionModel().getSelectedItem();
+            Pessoa pessoa = tablePessoa.getSelectionModel().getSelectedItem();
+            Aplicacao aplicacao = new Aplicacao(LocalDate.now(), pessoa, vacina, Situacao.ATIVO);
+            createAplicacao(aplicacao);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Aplicação");
+            alert.setHeaderText("Aplicação Feita com Sucesso");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Selecione uma Pessoa e uma Vacina");
+            alert.setTitle("Aplicação");
+            alert.setHeaderText("Sem Pessoa e Vacina para Aplicar");
+            alert.showAndWait();
+        }
+    }
+
     public void setDAOFactory(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
@@ -344,6 +372,19 @@ public class ControllerPrincipal implements Initializable {
             VacinaDAO vacinaDAO = daoFactory.getDAO(VacinaDAO.class);
             vacinaDAO.removeVacina(vacina);
             System.out.println("\n\n Vacina Remove \n\n");
+        } catch (SQLException e) {
+            GenericJDBCDAO.showSQLException(e);
+        } finally {
+            daoFactory.fecharConexao();
+        }
+    }
+
+    private void createAplicacao(Aplicacao aplicacao) {
+        try {
+            daoFactory.abrirConexao();
+            AplicacaoDAO aplicacaoDAO = daoFactory.getDAO(AplicacaoDAO.class);
+            aplicacaoDAO.createAplicacao(aplicacao);
+            System.out.println("\n\n Aplicação Criada \n\n");
         } catch (SQLException e) {
             GenericJDBCDAO.showSQLException(e);
         } finally {
