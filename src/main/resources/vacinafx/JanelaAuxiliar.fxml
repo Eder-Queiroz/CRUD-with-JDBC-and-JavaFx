@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vacinafx.controller.ControllerAuxiliar">
+   <children>
+      <Label fx:id="title" layoutX="14.0" layoutY="14.0" text="Title">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelCodigo" layoutX="225.0" layoutY="119.0" text="Codigo:" />
+      <TextField fx:id="inputCodigo" layoutX="225.0" layoutY="137.0" />
+      <Label fx:id="labelNome" layoutX="225.0" layoutY="177.0" text="Nome:" />
+      <TextField fx:id="inputNome" layoutX="225.0" layoutY="195.0" />
+      <Label fx:id="labelDescricao" layoutX="225.0" layoutY="237.0" text="Descrição:" />
+      <TextField fx:id="inputDescricao" layoutX="225.0" layoutY="255.0" />
+      <Button fx:id="btnCancel" layoutX="427.0" layoutY="344.0" mnemonicParsing="false" onAction="#btnCancelClicado" style="-fx-background-color: #bb2124;" text="Cancelar" textFill="WHITE" />
+      <Button fx:id="btnSubmit" layoutX="504.0" layoutY="344.0" mnemonicParsing="false" onAction="#btnSubmitClicado" style="-fx-background-color: #22bb33;" text="Enviar" textFill="WHITE" />
+   </children>
+</AnchorPane>
